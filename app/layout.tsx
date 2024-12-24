@@ -1,3 +1,5 @@
+
+
 export const metadata = {
   title: "Sanity Studio",
   description: "Content management system powered by Sanity",
@@ -10,7 +12,11 @@ export default function StudioLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+
+        {children}
+
+      </body>
     </html>
   );
 }
