@@ -10,70 +10,48 @@ export const categoryType = defineType({
     defineField({
       name: "title",
       title: "Title",
-      type: "object",
-      fields: [
-        defineField({
-          name: "en",
-          title: "English Title",
-          type: "string",
-        }),
-        defineField({
-          name: "ar",
-          title: "Arabic Title",
-          type: "string",
-        }),
-      ],
+      type: "string",
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "slug",
+      title: "Slug",
       type: "slug",
       options: {
-        source: "title.en", // Use the English title for slug generation
+        source: "title",
+        maxLength: 96,
       },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "language",
+      title: "Language",
+      type: "string",
+      options: {
+        list: [
+          { title: "English", value: "en" },
+          { title: "Arabic", value: "ar" },
+        ],
+      },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "description",
       title: "Description",
-      type: "object",
-      fields: [
-        defineField({
-          name: "en",
-          title: "English Description",
-          type: "text",
-        }),
-        defineField({
-          name: "ar",
-          title: "Arabic Description",
-          type: "text",
-        }),
-      ],
+      type: "text",
+      rows: 2,
     }),
   ],
+  preview: {
+    select: {
+      title: "title",
+      language: "language",
+    },
+    prepare({ title, language }) {
+      return {
+        title,
+        subtitle: `Language: ${language}`,
+      };
+    },
+  },
 });
-
-// import { TagIcon } from "@sanity/icons";
-// import { defineField, defineType } from "sanity";
-
-// export const categoryType = defineType({
-//   name: "category",
-//   title: "Category",
-//   type: "document",
-//   icon: TagIcon,
-//   fields: [
-//     defineField({
-//       name: "title1",
-//       type: "string",
-//     }),
-//     defineField({
-//       name: "slug",
-//       type: "slug",
-//       options: {
-//         source: "title",
-//       },
-//     }),
-//     defineField({
-//       name: "description",
-//       type: "text",
-//     }),
-//   ],
-// });

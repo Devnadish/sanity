@@ -9,7 +9,6 @@ import { documentInternationalization } from "@sanity/document-internationalizat
 import { apiVersion, dataset, projectId } from "./sanity/env";
 import { schema } from "./sanity/schemaTypes";
 import { structure } from "./sanity/structure";
-import KhalidNadish from "./components/khalidnadish";
 import { Card, Flex, Stack, Text } from '@sanity/ui'
 
 
@@ -35,7 +34,7 @@ function CustomNavbar(props: NavbarProps) {
         <Card tone="positive" padding={3} style={{ flexGrow: 1 }}  >
           <Text size={1} weight="bold" align="right">
             <a href="https://your-link-here.com" style={{ color: 'inherit', textDecoration: 'none' }}>
-              Khalid Nadish
+              Khalid Nadish 01
             </a>
           </Text></Card>
 
@@ -56,16 +55,20 @@ export default defineConfig({
   dataset,
   schema,
   plugins: [
+    // deskTool({
+    //   // structure,
+    //   // defaultDocumentNode
+    // }),
     structureTool({ structure }),
     visionTool({ defaultApiVersion: apiVersion }),
-    presentationTool({
-      previewUrl: {
-        preview: "/",
-        previewMode: {
-          enable: "/draft-mode/enable",
-        },
-      },
-    }),
+    // presentationTool({
+    //   previewUrl: {
+    //     preview: "/",
+    //     previewMode: {
+    //       enable: "/draft-mode/enable",
+    //     },
+    //   },
+    // }),
     documentInternationalization({
       supportedLanguages: [
         { id: "en", title: "English" },

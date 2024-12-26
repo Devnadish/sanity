@@ -8,9 +8,22 @@ export const postType = defineType({
   icon: DocumentTextIcon,
   fields: [
     defineField({
+      name: "section",
+      type: "string",
+      validation: rule => rule.min(1).max(100),
+      title: "Define Section",
+      description: "1-service 2-technology 3-support 4-free"
+    }),
+    defineField({
+      name: "order",
+      type: "string",
+      validation: rule => rule.min(1).max(2),
+      description: "order to display data"
+    }),
+    defineField({
       name: "title",
       type: "string",
-      validation: rule => rule.required().min(10).max(100),
+      validation: rule => rule.min(10).max(100),
       description: "The main title of the post (important for SEO)"
     }),
     defineField({
@@ -31,14 +44,15 @@ export const postType = defineType({
       name: "description",
       type: "text",
       rows: 3,
-      validation: rule => rule.required().min(50).max(200),
+      validation: rule => rule.min(50).max(200),
       description: "A brief description for SEO and previews"
     }),
     defineField({
       name: "author",
       type: "reference",
       to: { type: "author" },
-      validation: rule => rule.required(),
+      // validation: rule => rule.required(),
+      // initialValue: () => "khalidnadish",
       description: "Who wrote this post?"
     }),
     defineField({
@@ -64,20 +78,21 @@ export const postType = defineType({
       ],
       validation: rule => rule.required()
     }),
+    // defineField({
+    //   name: "categories",
+    //   type: "array",
+    //   of: [{ type: "reference", to: { type: "category" } }],
+    //   // validation: rule => rule.required(),
+    //   description: "Categories help organize your content"
+    // }),
     defineField({
-      name: "categories",
-      type: "array",
-      of: [{ type: "reference", to: { type: "category" } }],
-      validation: rule => rule.required().min(1),
-      description: "Categories help organize your content"
-    }),
-    defineField({
-      name: "department",
+      name: "category", // Singular name for clarity
       type: "reference",
-      to: { type: "department" },
-      validation: rule => rule.required(),
-      description: "Which department does this post belong to?"
+      to: { type: "category" }, // Reference the "category" document type
+      validation: rule => rule.required(), // Ensure a category is always selected
+      description: "Select a category for this post",
     }),
+
     defineField({
       name: "tags",
       type: "array",
@@ -90,7 +105,7 @@ export const postType = defineType({
     defineField({
       name: "publishedAt",
       type: "datetime",
-      validation: rule => rule.required(),
+      // validation: rule => rule.required(),
       initialValue: () => new Date().toISOString(),
       description: "When should this post be published?"
     }),
@@ -196,17 +211,19 @@ export const postType = defineType({
   preview: {
     select: {
       title: "title",
+      section: "section",
+      order: "order",
+      language: "language",
       author: "author.name",
       media: "mainImage",
       publishedAt: "publishedAt"
     },
     prepare(selection) {
-      const { author, publishedAt } = selection;
+      const { author, publishedAt, section, order, language } = selection;
       return {
         ...selection,
-        subtitle: author && publishedAt ?
-          `by ${author} • ${new Date(publishedAt).toLocaleDateString()}` :
-          author ? `by ${author}` : ''
+        subtitle: section ?
+          `${section} • ${order} • ${language}` : "GENERAL"
       };
     },
   },
