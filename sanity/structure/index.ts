@@ -1,7 +1,12 @@
 import { DefaultDocumentNodeResolver } from 'sanity/structure'
-import Iframe from 'sanity-plugin-iframe-pane'
-import type { IframeOptions } from 'sanity-plugin-iframe-pane'
+import { Iframe, IframeOptions } from 'sanity-plugin-iframe-pane'
 import { SanityDocument } from 'sanity'
+
+interface PostDocument extends SanityDocument {
+  slug?: {
+    current: string
+  }
+}
 
 // Customize this configuration with your own document types
 export const getDefaultDocumentNode: DefaultDocumentNodeResolver = (
@@ -15,7 +20,7 @@ export const getDefaultDocumentNode: DefaultDocumentNodeResolver = (
         S.view
           .component(Iframe)
           .options({
-            url: (doc: SanityDocument) => {
+            url: (doc: PostDocument) => {
               const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL || 'http://localhost:3000'
               const slug = doc?.slug?.current
               return slug ? `${baseUrl}/posts/${slug}` : baseUrl
