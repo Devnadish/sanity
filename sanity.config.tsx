@@ -10,8 +10,7 @@ import { apiVersion, dataset, projectId } from "./sanity/env";
 import { schema } from "./sanity/schemaTypes";
 import { structure } from "./sanity/structure";
 import { Card, Flex, Stack, Text } from '@sanity/ui'
-
-
+import { getDefaultDocumentNode } from "./sanity/structure/views";
 
 function CustomNavbar(props: NavbarProps) {
   const w = useWorkspace()
@@ -55,11 +54,8 @@ export default defineConfig({
   dataset,
   schema,
   plugins: [
-    // deskTool({
-    //   // structure,
-    //   // defaultDocumentNode
-    // }),
-    structureTool({ structure }),
+    
+    structureTool({ structure ,defaultDocumentNode: getDefaultDocumentNode}),
     visionTool({ defaultApiVersion: apiVersion }),
     // presentationTool({
     //   previewUrl: {

@@ -1,15 +1,16 @@
-// structure/views.ts
-import { StructureBuilder } from "sanity/desk";
+import { StructureBuilder, DefaultDocumentNodeResolver } from 'sanity/structure'
 
 export const createCustomView = (
   S: StructureBuilder,
   title: string,
   filter: string
 ) => {
-  return S.view.component().title(title).filter(filter);
+  return S.documentList()
+    .title(title)
+    .filter(filter);
 };
 
-export const defaultDocumentNode = (
+export const getDefaultDocumentNode: DefaultDocumentNodeResolver = (
   S: StructureBuilder,
   { schemaType }: { schemaType: string }
 ) => {
