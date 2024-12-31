@@ -6,11 +6,30 @@ export const postType = defineType({
   title: "Post",
   type: "document",
   icon: DocumentTextIcon,
+  groups: [
+    {
+      name: 'seo',
+      title: 'SEO',
+    },
+  ],
   fields: [
+    defineField({
+      name: "section",
+      type: "string",
+      validation: rule => rule.min(1).max(100),
+      title: "Define Section",
+      description: "1-service 2-technology 3-support 4-free"
+    }),
+    defineField({
+      name: "order",
+      type: "string",
+      validation: rule => rule.min(1).max(2),
+      description: "order to display data"
+    }),
     defineField({
       name: "title",
       type: "string",
-      validation: rule => rule.required().min(10).max(100),
+      validation: rule => rule.min(10).max(100),
       description: "The main title of the post (important for SEO)"
     }),
     defineField({
@@ -31,14 +50,15 @@ export const postType = defineType({
       name: "description",
       type: "text",
       rows: 3,
-      validation: rule => rule.required().min(50).max(200),
+      validation: rule => rule.min(50).max(200),
       description: "A brief description for SEO and previews"
     }),
     defineField({
       name: "author",
       type: "reference",
       to: { type: "author" },
-      validation: rule => rule.required(),
+      // validation: rule => rule.required(),
+      // initialValue: () => "khalidnadish",
       description: "Who wrote this post?"
     }),
     defineField({
@@ -64,20 +84,13 @@ export const postType = defineType({
       ],
       validation: rule => rule.required()
     }),
+
     defineField({
-      name: "categories",
-      type: "array",
-      of: [{ type: "reference", to: { type: "category" } }],
-      validation: rule => rule.required().min(1),
-      description: "Categories help organize your content"
+      name: "category", // Singular name for clarity
+      type: "string",
+      description: "Select a category for this post",
     }),
-    defineField({
-      name: "department",
-      type: "reference",
-      to: { type: "department" },
-      validation: rule => rule.required(),
-      description: "Which department does this post belong to?"
-    }),
+
     defineField({
       name: "tags",
       type: "array",
@@ -90,7 +103,6 @@ export const postType = defineType({
     defineField({
       name: "publishedAt",
       type: "datetime",
-      validation: rule => rule.required(),
       initialValue: () => new Date().toISOString(),
       description: "When should this post be published?"
     }),
@@ -102,17 +114,17 @@ export const postType = defineType({
         defineArrayMember({
           type: "block",
           styles: [
-            {title: 'Normal', value: 'normal'},
-            {title: 'H1', value: 'h1'},
-            {title: 'H2', value: 'h2'},
-            {title: 'H3', value: 'h3'},
-            {title: 'Quote', value: 'blockquote'},
+            { title: 'Normal', value: 'normal' },
+            { title: 'H1', value: 'h1' },
+            { title: 'H2', value: 'h2' },
+            { title: 'H3', value: 'h3' },
+            { title: 'Quote', value: 'blockquote' },
           ],
-          lists: [{title: 'Bullet', value: 'bullet'}],
+          lists: [{ title: 'Bullet', value: 'bullet' }],
           marks: {
             decorators: [
-              {title: 'Strong', value: 'strong'},
-              {title: 'Emphasis', value: 'em'},
+              { title: 'Strong', value: 'strong' },
+              { title: 'Emphasis', value: 'em' },
             ],
             annotations: [
               {
@@ -189,24 +201,26 @@ export const postType = defineType({
     defineField({
       name: "language",
       type: "string",
-      readOnly: true,
-      hidden: true
+      readOnly: false,
+      hidden: false
     })
   ],
   preview: {
     select: {
       title: "title",
+      section: "section",
+      order: "order",
+      language: "language",
       author: "author.name",
       media: "mainImage",
       publishedAt: "publishedAt"
     },
     prepare(selection) {
-      const { author, publishedAt } = selection;
+      const { author, publishedAt, section, order, language } = selection;
       return {
         ...selection,
-        subtitle: author && publishedAt ? 
-          `by ${author} • ${new Date(publishedAt).toLocaleDateString()}` : 
-          author ? `by ${author}` : ''
+        subtitle: section ?
+          `${section} • ${order} • ${language}` : "GENERAL"
       };
     },
   },
@@ -215,14 +229,14 @@ export const postType = defineType({
       title: 'Publication Date, New',
       name: 'publishedAtDesc',
       by: [
-        {field: 'publishedAt', direction: 'desc'}
+        { field: 'publishedAt', direction: 'desc' }
       ]
     },
     {
       title: 'Publication Date, Old',
       name: 'publishedAtAsc',
       by: [
-        {field: 'publishedAt', direction: 'asc'}
+        { field: 'publishedAt', direction: 'asc' }
       ]
     }
   ]

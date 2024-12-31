@@ -4,7 +4,8 @@ import { blockContentType } from "./blockContentType";
 import { categoryType } from "./categoryType";
 import { postType } from "./postType";
 import { authorType } from "./authorType";
-import { blogType } from "./blogType";
+import { mediaLibrary } from "./mediaLibrary";
+
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -12,6 +13,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     categoryType,
     postType,
     authorType,
-    blogType,
+    mediaLibrary,
   ],
 };

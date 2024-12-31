@@ -1,0 +1,62 @@
+this santyi scahem
+      name: "title",
+      validation: rule => rule.required().min(10).max(100),
+      name: "slug",
+      type: "slug",
+          .toLowerCase()
+          .replace(/\s+/g, '-')
+          .slice(0, 96)
+      validation: rule => rule.required()
+      name: "subtitle",
+      type: "string",
+      description: "A catchy subtitle for your blog post"
+      name: "author",
+      validation: rule => rule.required()
+      name: "mainImage",
+      type: "image",
+        hotspot: true,
+          name: "alt",
+          type: "string",
+          title: "Alternative text",
+          description: "Important for SEO and accessibility",
+          validation: rule => rule.required()
+      name: "categories",
+      type: "array",
+      name: "tags",
+      type: "array",
+      name: "excerpt",
+      validation: rule => rule.required().min(50).max(200),
+      description: "A short summary of the blog post for previews and SEO"
+      name: "content",
+      description: "markdoawn formated",
+        
+           
+      name: "publishedAt",
+      type: "datetime",
+       
+      name: "featured",
+      type: "boolean",
+     
+    
+      name: "seo",
+      title: "SEO Settings",
+      type: "object",
+       
+          name: "metaTitle",
+          type: "string",
+          validation: rule => rule.max(60)
+        
+          name: "metaDescription",
+          type: "text",
+          validation: rule => rule.max(160)
+         
+          name: "keywords",
+          type: "array",
+          of: [{ type: "string" }],
+          options: {
+            layout: 'tags'
+           
+       "publishedAt"
+     
+  
+});    use this santiy schema i want tou to generate 10 blog base on the schema and give csv file so i can upload it to my data i perfect blogs i am company provide web app and mobile app and ui/ux and visual identity i want blog best for seo and attractt client to visit my site and make order and create attractive image for each blog make the autem me khalid nadish and my company name Dream to app include it in the blog finnaly give csv file tag ,keyword spreate by comma do you best pls
